@@ -15,7 +15,11 @@ from ..crud import (
     get_top_n_employees_worked_the_most,
     get_top_n_cost_tasks,
 )
-from ...constants import csv_schemas
+from ...constants import (
+    csv_schemas,
+    employee_path_stem,
+    position_path_stem
+)
 
 
 def insert_from_csv(
@@ -29,9 +33,9 @@ def insert_from_csv(
 
     with engine.connect() as conn:
         conn.begin()
-        if filename == "positions":
+        if filename == position_path_stem:
             insert_position(conn, data)
-        elif filename == "employees":
+        elif filename == employee_path_stem:
             insert_employee(conn, data)
         else:
             unique_task_codes = {d["task_cd"] for d in data}
